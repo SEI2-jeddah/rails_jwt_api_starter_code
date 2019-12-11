@@ -13,7 +13,7 @@ Create a file in `lib` folder called `json_web_token.rb`
 
 In the first line we encoded a payload with the secret key my_secret_key. So we get a token we can simply decode. The second line decodes the token and we see that we find our payload well.
 
-We will now include all this logic in a JsonWebToken class in a new file located in `lib/`. This will allow us to avoide duplicating the code. This class will just encode and decode the JWT tokens. So here is the implementation.
+We will now include all this logic in a JsonWebToken class in a new file located in `lib/`. This will allow us to avoid duplicating the code. This class will just encode and decode the JWT tokens. So here is the implementation.
 
 ```ruby
 class JsonWebToken
@@ -35,9 +35,7 @@ end
 
 - the method JsonWebToken.decode decodes the JWT token and gets the payload. Then we use the HashWithIndifferentAccess class provided by Rails which allows us to retrieve a value of a Hash with a Symbol or String.
 
-There you go. In order to load the file into our application, you must specify the lib folder in the list of Ruby on Rails \_autoload_s. To do
-48
-this, add the following configuration to the `config/application.rb` file: lib/
+There you go. In order to load the file into our application, you must specify the lib folder in the list of Ruby on Rails \_autoload_s. To do this, add the following configuration to the `config/application.rb` file: lib/
 
 ```ruby
 # ...
@@ -53,7 +51,7 @@ end
 Note: password field must be name `password_digest`
 
 ```
-rails g model user name:string email:string password_digest:string
+ rails g model user name:string email:string password_digest:string
 ```
 
 Add this to the `app/model/user.rb` file,
@@ -61,6 +59,23 @@ this will hash the password on save
 
 ```
 has_secure_password
+```
+
+```ruby
+# Basic Migration template
+class CreateUsers < ActiveRecord::Migration[6.0]
+  def change
+    create_table :users do |t|
+      t.string :name
+      t.string :username
+      t.string :email
+      t.string :password_digest
+
+      t.timestamps
+    end
+  end
+end
+
 ```
 
 ### Sign Up
